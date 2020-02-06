@@ -1,0 +1,6 @@
+@extends('layouts.appmaster')
+@section('title', 'Job Match: Admin')
+
+@section('content')
+<link rel="stylesheet" href="style/adminPage.css">
+@endsection

@@ -1,0 +1,51 @@
+<?php
+
+namespace App\model;
+
+Class UserCredential
+{
+    private $userName;
+    private $password;
+    
+    function __construct(String $userName, String $password)
+    {
+        $this->userName = $userName;
+        $this->password = $password;
+    }
+    
+    /**
+     * The getter method for the username property
+     * @return $userName - string: the users username inorder to login
+     */
+    public function getUserName()
+    {
+        return $this->userName;
+    }
+    
+    /**
+     * The getter method for the password property
+     * @return $password - string: the users password inorder to login
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+    
+    /**
+     * The setter method for the username property
+     * @param $username - String: the users username inorder to login
+     */
+    public function setUserName(String $userName)
+    {
+        $this->userName = $userName;
+    }
+    
+    /**
+     * The setter method for the password property
+     * @param String $password
+     */
+    public function setPassword(String $password)
+    {
+        $this->password = $password;
+    }
+}

@@ -1,0 +1,57 @@
+<?php
+
+/**
+ * Bryce Schmisseur and Hermes Mimini
+ * Job Match Application 2.0
+ * LoginRegistrationController.php  2.0
+ * Febuary 5 2020
+ *
+ * LoginRegistrationController in order to pass through data from the views to the buessiness methods
+ */
+
+namespace App\business;
+
+use App\model\User;
+
+interface BusinessServiceInterface{
+     
+    function __construct();
+    
+    /**
+     * Method that takes in a full model to send to the database in order to save the information
+     * @param User $user
+     */
+    public function create($object);
+    
+    /**
+     * Method that takes in an updated model to update the correct objects data
+     * @param User $updatedUser
+     * @param int $id
+     */
+    public function update($object);
+    
+    /**
+     * Mehtod that takes in the ID of the object to delete the object from the database
+     * @param int $id
+     */
+    public function delete(int $id);
+    
+    /**
+     * Method that return the a list of all the users in the data base
+     */
+    public function viewAll();
+    
+    /**
+     * Method that takes in an ID of a secific user and returns a full user model
+     * @param int $id
+     */
+    public function viewById(int $id);
+    
+    /**
+     * Method that looks through all the users in the database to determin if the user credentials inputed match 
+     * with a user in the database
+     * @param User $user
+     */
+    public function authenticate($object);
+    
+}

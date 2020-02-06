@@ -1,0 +1,89 @@
+<?php
+
+/*
+ * Bryce Schmisseur and Hermes Mimini
+ * Job Match Application
+ * LoginRegistrationController.php
+ *
+ */
+
+namespace App\Http\Controllers;
+
+use Illuminate\Routing\Controller;
+use Illuminate\Http\Request;
+use App\model\User;
+use App\business\UserBusinessService;
+use App\model\UserCredential;
+use App\model\UserInformation;
+
+session_start(); 
+
+class LoginRegistrationController extends Controller
+{
+    private $service;
+    
+    function __construct()
+    {
+        $this->service = new UserBusinessService();
+    }
+    
+    /**
+     * Controller method when the user is trying to log in to make sure the user if valid before leading them to the homepage
+     * @param Request $request
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function authenticateUser(Request $request)
+    {
+        $userName = $request->input('userName');
+        $password = $request->input('password');
+        
+        $userCredentials = new UserCredential($userName, $password);
+        $userInfo = new UserInformation("", null, null);
+        $user = new User(0, "", "", "", "", 0, 1, $userCredentials, $userInfo);
+        
+        if($this->service->authenticate($user, $request))
+        {
+            $request->session()->put('currentUser', $_SESSION['currentUser']);
+            $data = ['returnMessage' => "Welcome Back " . $user->getFirstName()];
+            return view('homePage')->with($data);
+        }
+        
+        else
+        {
+            $data = ['returnMessage' => "Incorrect User Name or Password!"];
+            return view('login')->with($data);
+        }
+        
+    }
+    
+    /**
+     * Controller method that takes in all information from registration form to push the information to the database
+     * @param Request $request
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function registerUser(Request $request)
+    {
+        $firstName =  $request->input('firstName');
+        $lastName =  $request->input('lastName');
+        $phoneNumber =  $request->input('phoneNumber');
+        $email =  $request->input('email');
+        $userName =  $request->input('userName');
+        $password =  $request->input('password');
+        
+        $userCredentials = new UserCredential($userName, $password);
+        $userInfo = new UserInformation("", null, null);
+        $user = new User(0, $firstName, $lastName, $email, $phoneNumber, 1, 1, $userCredentials, $userInfo);
+        
+        if($this->service->create($user))
+        {
+            $data = ['returnMessage' => "Thank you for Joining "  . $user->getFirstName()];
+            return view('homePage')->with($data);
+        }
+        
+        else
+        {
+            $data = ['returnMessage' => "User Name Already Taken!"];
+            return view('login')->with($data); 
+        }
+    }
+}

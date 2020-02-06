@@ -1,0 +1,55 @@
+<?php
+
+/*
+ * Bryce Schmisseur and Hermes Mimini
+ * Job Match Application
+ * UserBusinessInterface.php
+ *
+ */
+
+namespace App\business;
+
+use App\model\User;
+
+interface BusinessServiceInterface{
+     
+    function __construct();
+    
+    /**
+     * Method that takes in a full user model to send to the database in order to save the information
+     * @param User $user
+     */
+    public function createUser(User $user);
+    
+    /**
+     * Method that takes in an updated user model and id to update the correct user's credentials
+     * @param User $updatedUser
+     * @param int $id
+     */
+    public function updateUser(User $updatedUser, int $id);
+    
+    /**
+     * Mehtod that takes in the ID of the user to delete the user from the database
+     * @param int $id
+     */
+    public function deleteUser(int $id);
+    
+    /**
+     * Method that return the a list of all the users in the data base
+     */
+    public function viewAllUsers();
+    
+    /**
+     * Method that takes in an ID of a secific user and returns a full user model
+     * @param int $id
+     */
+    public function viewUser(int $id);
+    
+    /**
+     * Method that looks through all the users in the database to determin if the user credentials inputed match 
+     * with a user in the database
+     * @param User $user
+     */
+    public function authenticateUser(User $user);
+    
+}

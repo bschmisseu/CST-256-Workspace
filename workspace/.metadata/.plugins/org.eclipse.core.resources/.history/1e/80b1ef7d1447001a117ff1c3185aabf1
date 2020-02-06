@@ -1,0 +1,75 @@
+<?php
+
+/*
+ * Bryce Schmisseur and Hermes Mimini
+ * Job Match Application
+ * UserBusinessService.php
+ *
+ */
+
+namespace App\business;
+
+use App\data\UserDataService;
+
+session_start(); 
+
+class UserBusinessService implements BusinessServiceInterface{
+    
+    private $dataService;
+    
+    public function __construct()
+    {
+        $this->dataService = new UserDataService();
+    }
+    
+    public function authenticate($object)
+    {
+        $users = $this->dataService->viewAll();
+        $userName = $object->getUserCredential()->getUserName();
+        $password = $object->getUserCredential()->getPassword(); 
+        $validUser = false;
+        
+        for($i = 0; $i < count($users); $i++)
+        {
+            $currentUser = $users[$i];
+            $currentUserName = $currentUser->getUserCredential()->getUserName();
+            $currentPassword = $currentUser->getUserCredential()->getPassword();
+            
+            if(strcmp($currentUserName, $userName) == 0 && strcmp($currentPassword, $password) == 0)
+            {
+                $validUser = true;
+                $_SESSION['currentUser'] = $currentUser;
+            }
+        }
+        
+        return $validUser;
+    }
+
+    public function viewById(int $id)
+    {
+        return $this->dataService->viewById($id);
+    }
+
+    public function create($object)
+    {
+        return $this->dataService->create($object);
+    }
+
+    public function update($object)
+    {
+        return $this->dataService->update($object);
+    }
+
+    public function delete(int $id)
+    {
+        return $this->dataService->delete($id);
+    }
+
+    public function viewAll()
+    {
+        return $this->dataService->viewAll();
+    }
+
+   
+    
+}

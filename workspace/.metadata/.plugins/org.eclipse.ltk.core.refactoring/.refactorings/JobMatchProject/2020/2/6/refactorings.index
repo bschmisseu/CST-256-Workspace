@@ -1,0 +1,3 @@
+1580785129168	Rename resource 'DataServiceInterface'
+1580849989007	Move 'admin.blade.php' to 'views'
+1580852822908	Move 'style' to 'resources'

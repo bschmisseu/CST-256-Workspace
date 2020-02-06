@@ -1,0 +1,149 @@
+<?php
+
+/*
+ * Bryce Schmisseur and Hermes Mimini
+ * Job Match Application
+ * User.php
+ * User is used as a model class to hold information pertianing to the user
+ */
+
+namespace App\model;
+
+Class Education
+{
+    private $id; 
+    private $name;
+    private $degree;
+    private $field;
+    private $startDate;
+    private $endDate;
+    private $description;
+    
+    function __construct($id, $name, $degree, $field, $startDate, $endDate, $description)
+    {
+        $this->id = $id; 
+        $this->name = $name;
+        $this->degree = $degree;
+        $this->field = $field;
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
+        $this->description = $description;
+    }
+    
+    /**
+     * Getter function for the id property
+     * @return $id - int: The education objects id number with in the database
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+    
+    /**
+     * Getter function for the name property
+     * @return $name - string: the name of the school
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * The getter method for the degree property
+     * @return $degree - string: the type of degree from the school
+     */
+    public function getDegree()
+    {
+        return $this->degree;
+    }
+
+    /**
+     * The getter method for the field property
+     * @return $field - string: 
+     */
+    public function getField()
+    {
+        return $this->field;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStartDate()
+    {
+        return $this->startDate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEndDate()
+    {
+        return $this->endDate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getdescription()
+    {
+        return $this->description;
+    }
+    
+    /**
+     * Setter function for the id property
+     * @param id - int: The education objects id number with in the database
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @param mixed $degree
+     */
+    public function setDegree($degree)
+    {
+        $this->degree = $degree;
+    }
+
+    /**
+     * @param mixed $field
+     */
+    public function setField($field)
+    {
+        $this->field = $field;
+    }
+
+    /**
+     * @param mixed $startDate
+     */
+    public function setStartDate($startDate)
+    {
+        $this->startDate = $startDate;
+    }
+
+    /**
+     * @param mixed $endDate
+     */
+    public function setEndDate($endDate)
+    {
+        $this->endDate = $endDate;
+    }
+
+    /**
+     * @param mixed $description
+     */
+    public function setdescription($description)
+    {
+        $this->description = $description;
+    }    
+}

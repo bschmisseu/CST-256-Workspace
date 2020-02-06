@@ -1,0 +1,50 @@
+<?php
+
+/*
+ * Bryce Schmisseur and Hermes Mimini
+ * Job Match Application
+ * LoginRegistrationController.php
+ *
+ */
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use App\business\UserBusinessService; 
+
+class UserController extends Controller
+{
+    private $service;
+    
+    function __construct()
+    {
+        $this->service = new UserBusinessService();
+    }
+    
+    public function editUser(Request $request)
+    {
+        $firstName =  $request->input('firstName');
+        $lastName =  $request->input('lastName');
+        $phoneNumber =  $request->input('phoneNumber');
+        $email =  $request->input('email');
+        $userName =  $request->input('userName');
+        $password =  $request->input('password');
+        $bio =  $request->input('bio');
+        $schoolName =  $request->input('schoolName');
+        $degree =  $request->input('degree');
+        $field =  $request->input('field');
+        $educationStartDate =  $request->input('educationStartDate');
+        $educationEndDate =  $request->input('educationEndDate');
+        $educationDescription =  $request->input('educationDescription');
+        $jobTitle =  $request->input('jobTitle');
+        $companyName =  $request->input('companyName');
+        $jobStartDate =  $request->input('jobStartDate');
+        $jobEndDate =  $request->input('jobEndDate');
+        $jobDescription =  $request->input('jobDescription');
+        
+        $currentUser = $request->session()->get('currentUser');
+        
+        $currentUser->
+    }
+}

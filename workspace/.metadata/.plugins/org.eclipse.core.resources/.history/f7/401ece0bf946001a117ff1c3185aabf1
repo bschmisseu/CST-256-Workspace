@@ -1,0 +1,11 @@
+<?php
+
+namespace App\model;
+
+Class Job
+{
+    private $title;
+    private $companyName;
+    private $startingDate;
+    private $endingDate;
+}

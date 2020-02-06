@@ -1,0 +1,29 @@
+<?php
+
+/*
+ * Bryce Schmisseur and Hermes Mimini
+ * Job Match Application
+ * LoginRegistrationController.php
+ *
+ */
+
+namespace App\Http\Controllers;
+
+use Illuminate\Routing\Controller;
+use App\business\UserBusinessService; 
+
+class AdminController extends Controller
+{
+    private $service;
+    
+    function __construct()
+    {
+        $this->service = new UserBusinessService();
+    }
+    
+    public function adminPage()
+    {
+        $data = ['userList' => $this->service->viewAll()];
+        return view('admin')->with($data); 
+    }
+}

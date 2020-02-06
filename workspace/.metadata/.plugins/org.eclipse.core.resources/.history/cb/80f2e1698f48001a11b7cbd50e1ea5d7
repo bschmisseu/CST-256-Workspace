@@ -1,0 +1,47 @@
+<?php
+
+namespace App\model;
+
+Class UserInformation
+{
+    private $bio;
+    private $jobs;
+    private $educationHistory;
+    
+    function __construct($bio, $jobs, $educationHistory)
+    {
+        $this->bio = $bio;
+        $this->jobs = $jobs;
+        $this->educationHistory = $educationHistory;
+    }
+    
+    public function getBio()
+    {
+        return $this->bio;
+    }
+    
+    public function getJobs()
+    {
+        return $this->jobs;
+    }
+    
+    public function getEducationHistory()
+    {
+        return $this->educationHistory;
+    }
+    
+    public function setBio($bio)
+    {
+        $this->bio = $bio;
+    }
+    
+    public function setJobs($jobs)
+    {
+        $this->jobs = $jobs;
+    }
+    
+    public function setEducationHistory($educationHistory)
+    {
+        $this->educationHistory = $educationHistory;
+    }
+}

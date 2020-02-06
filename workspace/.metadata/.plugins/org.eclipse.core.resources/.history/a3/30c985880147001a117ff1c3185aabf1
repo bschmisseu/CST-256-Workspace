@@ -1,0 +1,121 @@
+<?php
+
+namespace App\model;
+
+Class Education
+{
+    private $id; 
+    private $name;
+    private $degree;
+    private $field;
+    private $startDate;
+    private $endDate;
+    private $decription;
+    
+    function __construct($id, $name, $degree, $field, $startDate, $endDate, $description)
+    {
+        $this->id = $id; 
+        $this->name = $name;
+        $this->degree = $degree;
+        $this->field = $field;
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
+        $this->decription = $description;
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDegree()
+    {
+        return $this->degree;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getField()
+    {
+        return $this->field;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStartDate()
+    {
+        return $this->startDate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEndDate()
+    {
+        return $this->endDate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDecription()
+    {
+        return $this->decription;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @param mixed $degree
+     */
+    public function setDegree($degree)
+    {
+        $this->degree = $degree;
+    }
+
+    /**
+     * @param mixed $field
+     */
+    public function setField($field)
+    {
+        $this->field = $field;
+    }
+
+    /**
+     * @param mixed $startDate
+     */
+    public function setStartDate($startDate)
+    {
+        $this->startDate = $startDate;
+    }
+
+    /**
+     * @param mixed $endDate
+     */
+    public function setEndDate($endDate)
+    {
+        $this->endDate = $endDate;
+    }
+
+    /**
+     * @param mixed $decription
+     */
+    public function setDecription($decription)
+    {
+        $this->decription = $decription;
+    }    
+}

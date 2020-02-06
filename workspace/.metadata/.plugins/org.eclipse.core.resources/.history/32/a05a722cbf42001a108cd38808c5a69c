@@ -1,0 +1,8 @@
+@extends('appmaster')
+@section('title', 'Login Form')
+
+@section('content')
+<h2>Login Failed</h2>
+
+<input type="submit" formaction="/" class="btn btn-primary" value="Try Again">
+@endsection
