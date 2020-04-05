@@ -2,20 +2,27 @@
 
 /**
  * Bryce Schmisseur and Hermes Mimini
- * Job Match Application 2.0
+ * Job Match Application 3.0
  * LoginRegistrationController.php  2.0
- * Febuary 5 2020
+ * Febuary 23 2020
  *
- * LoginRegistrationController in order to pass through data from the views to the buessiness methods
+ * User Busienss Service is to connect the controller method to the data service methods
  */
 
 namespace App\business;
 
 use App\data\UserDataService;
+use App\data\EducationDataService;
+use App\data\JobDataService;
+use App\data\SkillDataService;
+use Illuminate\Support\Facades\Log;
 
 class UserBusinessService implements BusinessServiceInterface{
     
     private $dataService;
+    private $educationService;
+    private $jobService;
+    private $skillService;
     
     /**
      *
@@ -25,6 +32,9 @@ class UserBusinessService implements BusinessServiceInterface{
     public function __construct()
     {
         $this->dataService = new UserDataService();
+        $this->educationService = new EducationDataService();
+        $this->jobService = new JobDataService(); 
+        $this->skillService = new SkillDataService();
     }
     
     /**
@@ -34,32 +44,21 @@ class UserBusinessService implements BusinessServiceInterface{
      */
     public function authenticate($object)
     {
+        Log::info("Entering UserBusinessService.authenticate(User)");
         //Gets an array of users from the data service
-        $users = $this->dataService->viewAll();
+        $returnNum = $this->findByObject($object);
         
-        //Sets variables for the current user 
-        $userName = $object->getUserCredential()->getUserName();
-        $password = $object->getUserCredential()->getPassword(); 
-        $validUser = false;
-        
-        //For loop to search through all the users in the database
-        for($i = 0; $i < count($users); $i++)
+        if($returnNum > 1)
         {
-            //Sets variables of the current user
-            $currentUser = $users[$i];
-            $currentUserName = $currentUser->getUserCredential()->getUserName();
-            $currentPassword = $currentUser->getUserCredential()->getPassword();
-            
-            //Desicion to see if the user credential match from the database
-            if(strcmp($currentUserName, $userName) == 0 && strcmp($currentPassword, $password) == 0)
-            {
-                //If true then sets the varibles
-                $validUser = true;
-                $_SESSION['currentUser'] = $currentUser;
-            }
+            Log::info("Exiting UserBusinessService.authenticate(User)");
+            return $returnNum;
         }
         
-        return $validUser;
+        else
+        {
+            Log::info("Exiting UserBusinessService.authenticate(User)");
+            return null;
+        }
     }
 
     /**
@@ -67,10 +66,11 @@ class UserBusinessService implements BusinessServiceInterface{
      * {@inheritDoc}
      * @see \App\business\BusinessServiceInterface::viewById()
      */
-    public function viewById(int $id)
+    public function findById(int $id)
     {
         //returns a user model from the database
-        return $this->dataService->viewById($id);
+        Log::info("Entering and Exiting UserBusinessService.findById(Int)");
+        return $this->dataService->findById($id);
     }
 
     /**
@@ -81,6 +81,7 @@ class UserBusinessService implements BusinessServiceInterface{
     public function create($object)
     {
         //Sends a object to to the data service in write to the database
+        Log::info("Entering and Exiting UserBusinessService.create(User)");
         return $this->dataService->create($object);
     }
 
@@ -92,6 +93,7 @@ class UserBusinessService implements BusinessServiceInterface{
     public function update($object)
     {
         //Sends an updated object to the data service
+        Log::info("Entering and Exiting UserBusinessService.update(User)");
         return $this->dataService->update($object);
     }
 
@@ -100,10 +102,11 @@ class UserBusinessService implements BusinessServiceInterface{
      * {@inheritDoc}
      * @see \App\business\BusinessServiceInterface::delete()
      */
-    public function delete(int $id)
+    public function delete($object)
     {
+        Log::info("Entering and Exiting UserBusinessService.delete(User)");
         //Sends an id of an object to be deleted
-        return $this->dataService->delete($id);
+        return $this->dataService->delete($object);
     }
 
     /**
@@ -113,10 +116,49 @@ class UserBusinessService implements BusinessServiceInterface{
      */
     public function viewAll()
     {
+        Log::info("Entering UserBusinessService.viewAll()");
         //Request an array of all user objects from the data service
-        return $this->dataService->viewAll();
+        $users = $this->dataService->viewAll();
+        
+        for($i = 0; $i < count($users); $i++)
+        {
+            $id = $users[$i]->getIdNum();
+            
+            $currentUser = $this->dataService->findById($id);
+            $currentEducations = $this->educationService->findByParent($id);
+            $currentJobs = $this->jobService->findByParent($id);
+            $currentSkills = $this->skillService->findByParent($id);
+            
+            $currentUser->getUserInformation()->setEducationHistory($currentEducations);
+            $currentUser->getUserInformation()->setJobs($currentJobs);
+            $currentUser->getUserInformation()->setSkills($currentSkills);
+            
+            $users[$i] = $currentUser;
+        }
+        
+        Log::info("Exiting UserBusinessService.viewAll()");
+        return $users;
     }
-
-   
     
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \App\business\BusinessServiceInterface::viewByParentId()
+     */
+    public function findByParent(int $parentId)
+    {
+        Log::info("Entering and Exiting UserBusinessService.findByParent(Int)");
+        return $this->dataService->findByParent($parentId);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \App\business\BusinessServiceInterface::findBy()
+     */
+    public function findByObject($object)
+    {
+        Log::info("Entering and Exiting UserBusinessService.findByObject(User)");
+        return $this->dataService->findByObject($object);
+    }  
 }

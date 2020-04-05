@@ -1,7 +1,0 @@
-@extends('layout.appmaster')
-@section('title', 'Job Match: Home Page')
-
-<div align="center">
-    <h2>Home Page</h2><br/>
-    	<h4> Welcome back <?php echo $_SESSION['currentUser']->getFirstName(); ?></h4>
-</div>

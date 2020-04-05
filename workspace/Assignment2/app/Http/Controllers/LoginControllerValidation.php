@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Routing\Controller;
-
-use Exception;
 use Illuminate\Http\Request;
-use App\Model\User;
-use App\Business\SecurityService;
 use Illuminate\Validation\ValidationException;
+use App\model\User;
+use App\business\SecurityService;
 
 class LoginControllerValidation extends Controller
 {
@@ -41,9 +38,9 @@ class LoginControllerValidation extends Controller
             throw $invalidException;
         }
         
-        catch (Exception $e) {
-            return view('SystemException');
-        } 
+//         catch (Exception $e) {
+//             return view('SystemException');
+//         } 
     }
     
     private function validateForm(Request $request)

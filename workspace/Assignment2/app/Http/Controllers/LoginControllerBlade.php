@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\model\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use App\Business\SecurityService;
+use App\business\SecurityService;
 
 Class LoginControllerBlade extends Controller
 {

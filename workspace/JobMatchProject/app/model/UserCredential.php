@@ -4,14 +4,14 @@ namespace App\model;
 
 /*
  * Bryce Schmisseur and Hermes Mimini
- * Job Match Application 2.0
- * UserCredential 2.0
- * Febuary 5 2020
+ * Job Match Application 3.0
+ * UserCredential.php 2.0
+ * Febuary 23 2020
  *
  * UserCredential model inorder to store the username and password of the user
  */
 
-Class UserCredential
+Class UserCredential implements \JsonSerializable
 {
     private $userName;
     private $password;
@@ -62,4 +62,10 @@ Class UserCredential
     {
         $this->password = $password;
     }
+    
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
+
 }

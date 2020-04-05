@@ -1,4 +1,0 @@
-@extends('layouts.appmaster')
-@section('title', 'Job Match: Admin')
-
-@section('content')

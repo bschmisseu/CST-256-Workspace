@@ -3,6 +3,8 @@
 
 @section('content')
 <link rel="stylesheet" href="resources/style/adminPage.css">
+<link rel="stylesheet" href="resources/style/popup_style.css">
+<script src="resources/js/popup_script.js"></script>
 <br>
     <div class="container" style="font-size: 13px">
         <div class="table-wrapper">
@@ -66,5 +68,228 @@
             </table>
         </div>
     </div> 
+    
+    <div class="container" style="font-size: 13px">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-5">
+						<h2>Job <b>Listings</b></h2>
+					</div>
+					<div class="col-sm-7">
+						<a onclick="openJobListingForm()" class="btn btn-primary"><i class="material-icons">&#xE147;</i> <span>Add New Job Listing</span></a>					
+					</div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Company Name</th>						
+						<th>Position</th>
+						<th>Salary</th>
+						<th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach($jobListings as $job)
+                <tr style="text-align: center">
+               		<td>{{$job->getId()}}</td>
+               		<td>{{$job->getCompanyName()}}</td>
+               		<td>{{$job->getPosition()}}</td>
+               		<td>${{$job->getSalary()}}.00</td>
+               		<td>
+    					<button onclick="openEditJobListingForm({{$job->getId()}}, '{{$job->getCompanyName()}}', '{{$job->getPosition()}}', {{$job->getSalary()}}, '{{$job->getSkills()}}', '{{$job->getDescription()}}')" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xe150;</i></button>
+    					<form method= "POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this job listing?')">
+    						<input type="hidden" name ="_token" value="<?php echo csrf_token()?>"/>
+    						<input type="hidden" name="jobListingId" value="{{$job->getId()}}">
+    						<button formaction="deleteJobListing" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></button>
+    					</form>	
+    				</td>
+       			</tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div id="addJobListingForm">	
+    	<h2>Add Job Listing</h2>
+        <form method= "POST" action= "addJobListing">
+        	<input type="hidden" name ="_token" value="<?php echo csrf_token()?>"/>
+        	<table style="width: 100%">
+        		<tr>
+            		<td>
+            			<div class="form-group">
+                            <label class="col-md-13 control-label" for="jobPosition">Position</label>  
+                            <div class="col-md-13">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-briefcase"></i>
+                                    </span>
+                                	<input id="jobPosition" name="jobPosition" type="text" placeholder="Job Position" class="form-control input-md">
+                            	</div>
+            				</div>
+            			</div>	
+            		</td>
+        		</tr>
+            		<tr>
+            		<td>
+            			<div class="form-group">
+                            <label class="col-md-13 control-label" for="companyName">Company Name</label>  
+                            <div class="col-md-13">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-briefcase"></i>
+                                    </span>
+                                	<input id="companyName" name="companyName" type="text" placeholder="Company Name" class="form-control input-md">
+                            	</div>
+            				</div>
+            			</div>
+            		</td>
+        		</tr>
+        		<tr>
+            		<td>
+            			<div class="form-group">
+                            <label class="col-md-13 control-label" for="jobSalary">Salary</label>  
+                            <div class="col-md-13">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-usd"></i>
+                                    </span>
+                                	<input id="jobSalary" name="jobSalary" type="text" placeholder="Salary" class="form-control input-md">
+                            	</div>
+            				</div>
+            			</div>
+            		</td>
+        		</tr>
+        		<tr>
+            		<td>
+            			<div class="form-group">
+                            <label class="col-md-13 control-label" for="jobSkills">Skills</label>  
+                            <div class="col-md-13">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-bullseye"></i>
+                                    </span>
+                                	<input id="jobSkills" name="jobSkills" type="text" placeholder="Skills" class="form-control input-md">
+                            	</div>
+            				</div>
+            			</div>
+            		</td>
+        		</tr>
+        		<tr>
+            		<td>
+            			<div class="form-group">
+                            <label class="col-md-13 control-label" for="jobDescription">Description (max 200 words)</label>
+                            <div class="col-md-13">                     
+                            	<textarea class="form-control" rows="2"  id="jobDescription" name="jobDescription"></textarea>
+                            </div>
+                        </div>
+            		</td>
+        		</tr>
+        		<tr align="center" style="width: 100%;">
+        			<td>
+        				<input type= "submit" value= "Add Job Listing" class="btn btn-primary">
+        			</td>
+        		</tr>
+        	</table>
+        </form>
+    </div>
+    
+    <div id=editJobListingForm>	
+    	<h2>Edit Job Listing</h2>
+        <form method= "POST" action= "editJobListing">
+        	<input type="hidden" name ="_token" value="<?php echo csrf_token()?>"/>
+        	<input type="hidden" id="editJobListingId" name="jobListingId" value="-1">
+        	<table style="width: 100%">
+        		<tr>
+            		<td>
+            			<div class="form-group">
+                            <label class="col-md-13 control-label" for="jobPosition">Position</label>  
+                            <div class="col-md-13">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-briefcase"></i>
+                                    </span>
+                                	<input value="" id="editJobPosition" name="jobPosition" type="text" placeholder="Job Position" class="form-control input-md">
+                            	</div>
+            				</div>
+            			</div>	
+            		</td>
+        		</tr>
+            		<tr>
+            		<td>
+            			<div class="form-group">
+                            <label class="col-md-13 control-label" for="companyName">Company Name</label>  
+                            <div class="col-md-13">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-briefcase"></i>
+                                    </span>
+                                	<input value="" id="editCompanyName" name="companyName" type="text" placeholder="Company Name" class="form-control input-md">
+                            	</div>
+            				</div>
+            			</div>
+            		</td>
+        		</tr>
+        		<tr>
+            		<td>
+            			<div class="form-group">
+                            <label class="col-md-13 control-label" for="jobSalary">Salary</label>  
+                            <div class="col-md-13">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-usd"></i>
+                                    </span>
+                                	<input value="" id="editJobSalary" name="jobSalary" type="text" placeholder="Salary" class="form-control input-md">
+                            	</div>
+            				</div>
+            			</div>
+            		</td>
+        		</tr>
+        		<tr>
+            		<td>
+            			<div class="form-group">
+                            <label class="col-md-13 control-label" for="jobSkills">Skills</label>  
+                            <div class="col-md-13">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-bullseye"></i>
+                                    </span>
+                                	<input value="" id="editJobSkills" name="jobSkills" type="text" placeholder="Skills" class="form-control input-md">
+                            	</div>
+            				</div>
+            			</div>
+            		</td>
+        		</tr>
+        		<tr>
+            		<td>
+            			<div class="form-group">
+                            <label class="col-md-13 control-label" for="editJobDescription">Description (max 200 words)</label>
+                            <div class="col-md-13">                     
+                            	<textarea class="form-control" rows="2"  id="editJobDescription" name="editJobDescription"></textarea>
+                            </div>
+                        </div>
+            		</td>
+        		</tr>
+        		<tr align="center" style="width: 100%;">
+        			<td>
+        				<input type= "submit" value= "Edit Job Listing" class="btn btn-primary">
+        			</td>
+        		</tr>
+        	</table>
+        </form>
+    </div>
+    
+   	<script type="text/javascript">
+    var errorList = "Error List: "; 
+    @if ($errors->any())
+    	@foreach ($errors->all() as $error)
+    		errorList += "\n{{$error}}";
+    	@endforeach
+    	alert(errorList);
+    @endif
+    </script>
 
 @endsection

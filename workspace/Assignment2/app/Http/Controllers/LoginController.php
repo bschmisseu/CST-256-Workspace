@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Routing\Controller;
 
 use Illuminate\Http\Request;
-use App\Model\User;
-use App\Business\SecurityService;
+use App\model\User;
+use App\business\SecurityService;
 
 class LoginController extends Controller
 {

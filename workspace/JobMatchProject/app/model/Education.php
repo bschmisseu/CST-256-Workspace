@@ -2,16 +2,16 @@
 
 /**
  * Bryce Schmisseur and Hermes Mimini
- * Job Match Application 2.0
+ * Job Match Application 3.0
  * Education.php 2.0
- * Febuary 5 2020
+ * Febuary 23 2020
  *
  * Education model in order to keep track of the users past education history
  */
 
 namespace App\model;
 
-Class Education
+Class Education implements \JsonSerializable
 {
     private $id; 
     private $name;
@@ -20,7 +20,9 @@ Class Education
     private $startDate;
     private $endDate;
     private $description;
-    
+    private $userId;
+    private $edit;
+
     /**
      * Constructor poulated with all properies inorder when creating the object to set the varibles
      * @param $id - int: The education objects id number with in the database
@@ -30,8 +32,9 @@ Class Education
      * @param $startDate - string: the date in which started at the school
      * @param $endDate - string: the date in which graduated from the school
      * @param $description - string: the users decription of the school
+     * @param $userId - int: the id of the users that the education is linked to
      */
-    function __construct($id, $name, $degree, $field, $startDate, $endDate, $description)
+    function __construct($id, $name, $degree, $field, $startDate, $endDate, $description, $userId)
     {
         $this->id = $id; 
         $this->name = $name;
@@ -40,6 +43,8 @@ Class Education
         $this->startDate = $startDate;
         $this->endDate = $endDate;
         $this->description = $description;
+        $this->userId = $userId;
+        $this->edit = FALSE; 
     }
     
     /**
@@ -166,5 +171,48 @@ Class Education
     public function setdescription($description)
     {
         $this->description = $description;
-    }    
+    } 
+    
+    
+    /**
+     * The getter method for the user id property
+     * @return $userId - int: the id of the users that the education is linked to
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+    
+    /**
+     * The setter method for the user id property
+     * @param $userId - int: the id of the users that the education is linked to
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+    }
+    
+    /**
+     * Getter method for the edit property
+     * @return $edit - boolean: property to determin if the education is in an edited state
+     */
+    public function getEdit()
+    {
+        return $this->edit;
+    }
+    
+    /**
+     * Setter method for the edit property
+     * @param $edit - boolean: property to determin if the education is in an edited state
+     */
+    public function setEdit($edit)
+    {
+        $this->edit = $edit;
+    }
+    
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
+
 }

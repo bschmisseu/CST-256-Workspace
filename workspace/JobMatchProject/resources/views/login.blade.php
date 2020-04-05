@@ -12,7 +12,7 @@
     			<div class="form-group">
     				<label for="userName">Username: </label>
     				<input type="text" name="userName" class="form-control" placeholder="Enter username" required="required"/>
-    				<div class="invalid-feedback">Incorrect Information</div>
+    				<div class="invalid-feedback">{{ $errors->first('userName')}}</div>
     			</div>
         	</td>
     	</tr>
@@ -22,7 +22,7 @@
     			<div class="form-group">
     				<label for="password">Password: </label>
     				<input type="password" name="password" class="form-control" placeholder="Enter password" required="required"/>
-    				<div class="invalid-feedback">Incorrect Information</div>
+    				<div class="invalid-feedback">{{ $errors->first('password')}}</div>
     			</div>
     		</td>
     	</tr>
@@ -30,7 +30,7 @@
     	<tr>
     		<td colspan= "2" align="center">
     		<div align="center">
-    		<input type= "submit" value= "Login" class="btn btn-primary">
+    		<input type= "submit" value="Login" class="btn btn-primary">
     		</div>
     		</td>
     	</tr>	

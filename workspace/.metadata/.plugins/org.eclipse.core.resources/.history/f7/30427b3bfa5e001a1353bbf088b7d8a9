@@ -1,0 +1,54 @@
+<?php
+
+/**
+ * Bryce Schmisseur and Hermes Mimini
+ * Job Match Application 3.0
+ * AdminController.php  3.0
+ * Febuary 23 2020
+ *
+ * Admin controller in order to pass through data from the views to the buessiness methods
+ */
+
+namespace App\Http\Controllers;
+
+use Illuminate\Validation\ValidationException;
+use Exception;
+use App\business\GroupBusinessService;
+
+class GroupController extends Controller
+{
+    private $service;
+    
+    /**
+     * Defualt contstructor to initialize the Business Service object
+     */
+    function __construct()
+    {
+        $this->service = new GroupBusinessService();
+    }
+    
+    /**
+     * Directs the user to the admin page with an array of all users
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory - admin page
+     */
+    public function groupListPage()
+    {
+        try
+        {
+            //Gets an array of all users within the database 
+            $data = ['groups' => $this->service->viewAll()
+            ];
+            
+            //returns the admin page view
+            return view('groups')->with($data); 
+        }
+        
+        catch(ValidationException $invalidException) {
+            throw $invalidException;
+        }
+        
+        catch (Exception $e) {
+            return view('errorPage');
+        } 
+    }
+}

@@ -4,26 +4,28 @@ namespace App\model;
 
 /**
  * Bryce Schmisseur and Hermes Mimini
- * Job Match Application 2.0
- * UserInforamtion 2.0
- * Febuary 5 2020
+ * Job Match Application 3.0
+ * UserInforamtion.php 3.0
+ * Febuary 23 2020
  *
  * User information model to store more information about the user
  */
 
-Class UserInformation
+Class UserInformation implements \JsonSerializable
 {
     private $bio;
     private $jobs;
     private $educationHistory;
+    private $skills;
     
     /**
      * Constructor poulated with all properies inorder when creating the object to set the varibles
      * @param $bio - string: The users bio to explain more about themselves
      * @param $jobs - array: and array of Jobs that the users has had
      * @param $educationHistory - array: and array of the users education expirence
+     * @param $skills - array: an array of skills of the user
      */
-    function __construct($bio, $jobs, $educationHistory)
+    function __construct($bio, $jobs, $educationHistory, $skills)
     {
         $this->bio = $bio;
         $this->jobs = $jobs;
@@ -58,6 +60,15 @@ Class UserInformation
     }
     
     /**
+     * The getter method for the skills property
+     * @return $skills - array: an array of skills of the user
+     */
+    public function getSkills()
+    {
+        return $this->skills;
+    }
+    
+    /**
      * The setter method for the bio property
      * @param $bio - string: The users bio to explain more about themselves
      */
@@ -83,4 +94,19 @@ Class UserInformation
     {
         $this->educationHistory = $educationHistory;
     }
+    
+    /**
+     * The setter method for the skills property
+     * @param $skills - array: an array of skills of the user
+     */
+    public function setSkills($skills)
+    {
+        $this->skills = $skills;
+    }
+    
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
+
 }

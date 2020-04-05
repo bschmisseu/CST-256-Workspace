@@ -2,16 +2,16 @@
 
 /**
  * Bryce Schmisseur and Hermes Mimini
- * Job Match Application 2.0
+ * Job Match Application 3.0
  * User.php 2.0
- * Febuary 5 2020
+ * Febuary 23 2020
  * 
  * User is a model class in order to hold data and path through different pages and methods
  */
 
 namespace App\model;
 
-Class User
+Class User implements \JsonSerializable
 {
     private $idNum;
     private $firstName;
@@ -210,5 +210,11 @@ Class User
     {
         $this->userInformation = $userInformation;
     }
+    
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
+
     
 }

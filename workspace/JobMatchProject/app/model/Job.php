@@ -4,14 +4,14 @@ namespace App\model;
 
 /**
  * Bryce Schmisseur and Hermes Mimini
- * Job Match Application 2.0
+ * Job Match Application 3.0
  * Job 2.0
- * Febuary 5 2020
+ * Febuary 23 2020
  *
  * Job model inorder to store the information of the users past work expirence
  */
 
-Class Job
+Class Job implements \JsonSerializable
 {
     private $id;
     private $title;
@@ -19,6 +19,8 @@ Class Job
     private $startingDate;
     private $endingDate;
     private $description;
+    private $userId;
+    private $edit;
     
     /**
      * Constructor poulated with all properies inorder when creating the object to set the varibles
@@ -28,8 +30,9 @@ Class Job
      * @param $startDate - string: the date in which started at the school
      * @param $startDate - string: the date in which ended at the school
      * @param $description - string: the users decription of the job
+     * @param $userId - int: the id of the users that the education is linked to
      */
-    function __construct($id, $title, $company, $startingDate, $endingDate, $description)
+    function __construct($id, $title, $company, $startingDate, $endingDate, $description, $userId)
     {
         $this->id = $id; 
         $this->title = $title;
@@ -37,6 +40,8 @@ Class Job
         $this->startingDate = $startingDate;
         $this->endingDate = $endingDate;
         $this->description = $description;
+        $this->userId = $userId;
+        $this->edit = false;
     }
     
     /**
@@ -146,4 +151,46 @@ Class Job
     {
         $this->description = $description;
     }
+    
+    /**
+     * The getter method for the user id property
+     * @return $userId - int: the id of the users that the education is linked to
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+    
+    /**
+     * The setter method for the user id property
+     * @param $userId - int: the id of the users that the education is linked to
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+    }
+    
+    /**
+     * Getter method for the edit property
+     * @return $edit - boolean: property to determin if the job is in an edited state
+     */
+    public function getEdit()
+    {
+        return $this->edit;
+    }
+    
+    /**
+     * Setter method for the edit property
+     * @param $edit - boolean: property to determin if the job is in an edited state
+     */
+    public function setEdit($edit)
+    {
+        $this->edit = $edit;
+    }
+    
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
+
 }

@@ -13,7 +13,7 @@
 
 //Index Page Route
 Route::get('/', function () {
-    return view('login');
+    return view('indexBlade');
 });
 
 Route::get('/login', function () {
@@ -32,4 +32,12 @@ Route::get('/loginValidation', function () {
     return view('loginValidation');
 });
 
-Route::post('doLoginValidation', 'LoginControllerValidation@loginUser');
+Route::post('doLoginValidation', 'LoginControllerMonoLog@loginUser');
+
+Route::get('/index', function() {
+    return view('index');
+});
+
+Route::resource('/usersrest', 'UserRestController');
+
+Route::get('/loggingService', 'TestLoggingController@index');

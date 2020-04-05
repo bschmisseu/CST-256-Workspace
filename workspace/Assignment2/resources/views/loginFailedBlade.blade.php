@@ -1,4 +1,4 @@
-@extends('layouts.appmaster')
+@extends('layouts.appmasterBootstrap')
 @section('title', 'Login Failed')
 
 @section('content')

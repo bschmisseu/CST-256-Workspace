@@ -9,5 +9,6 @@
 		<item key="PHPSourceActionDialog.FinalModifier" value="false"/>
 		<item key="PHPSourceActionDialog.Comments" value="true"/>
 		<item key="GettersSettersDialog.sortorder" value="true"/>
+		<item key="PHPSourceActionDialog.InsertPosition" value="2"/>
 	</section>
 </section>

@@ -1,9 +1,11 @@
- <?php
+<?php
 
-namespace App\Data;
+namespace App\data;
 
-use \Illuminate\Support\Facades\Log;
+use App\Services\Utility\MyLogger;
 use App\model\User;
+use Illuminate\Contracts\Logging\Log;
+use PDO;
 
 Class SecurityDAO {
     
@@ -16,7 +18,7 @@ Class SecurityDAO {
     
     public function findByUser(User $user)
     {
-        Log::info("Entering SecurityDAO.findByUser(User)");
+        MyLogger::info("Entering SecurityDAO.findByUser(User)");
         
         try{
             
@@ -30,20 +32,83 @@ Class SecurityDAO {
             
             if($statement->rowCount() == 1)
             {
-                Log::info("Exit Security DAO.findByUser() with true");
+                MyLogger::info("Exit Security DAO.findByUser() with true");
                 return true;
             }
             
             else
             {
-                Log::info("Exit Security DAO.findByUser() with false");
+                MyLogger::info("Exit Security DAO.findByUser() with false");
                 return false;
             }
         }
         
         catch(\PDOException $e) {
             
-            Log::error("Exception: ", array("message" => $e->getMessage()));
+            MyLogger::error("Exception: ", array("message" => $e->getMessage()));
+            throw new DatabaseException("Database Exception: " . $e->getMessage(), 0, $e);
+        }
+    }
+    
+    public function findAllUsers()
+    {
+        MyLogger::info("Entering SecurityDAO.findAllUsers()");
+        try
+        {
+            $statement = $this->database->prepare('SELECT * FROM USERS');
+            $statement->execute();
+            
+            if($statement->rowCount() == 0)
+            {
+                return array();
+            }
+            
+            else
+            {
+                $index = 0;
+                $users = array();
+                
+                while($row = $statement->fetch(PDO::FETCH_ASSOC))
+                {
+                    $users[$index] = new User($row['ID'], $row['USERNAME'], $row['PASSWORD']);
+                    $index++;
+                }
+                return $users;
+            }
+        }
+        
+        catch(\PDOException $e) {
+            
+            MyLogger::error("Exception: ", array("message" => $e->getMessage()));
+            throw new DatabaseException("Database Exception: " . $e->getMessage(), 0, $e);
+        }
+    }
+    
+    public function findByUserId(int $userId)
+    {
+        try
+        {
+            $statement = $this->database->prepare('SELECT * FROM USERS WHERE ID = :id');
+            $statement->bindParam(':id', $userId);
+            $statement->execute();
+            
+            if($statement->rowCount() == 0)
+            {
+                return null;
+            }
+            
+            else
+            {
+                $row = $statement->fetch(PDO::FETCH_ASSOC);
+                $user = new User($row['ID'], $row['USERNAME'], $row['PASSWORD']);
+                
+                return $user;
+            }
+        }
+        
+        catch(\PDOException $e) {
+            
+            MyLogger::error("Exception: ", array("message" => $e->getMessage()));
             throw new DatabaseException("Database Exception: " . $e->getMessage(), 0, $e);
         }
     }

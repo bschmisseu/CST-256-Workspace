@@ -2,9 +2,9 @@
 
 /**
  * Bryce Schmisseur and Hermes Mimini
- * Job Match Application 2.0
+ * Job Match Application 3.0
  * Database.php  2.0
- * Febuary 5 2020
+ * Febuary 23 2020
  *
  * Houses a method inorder to connect to the database
  */
